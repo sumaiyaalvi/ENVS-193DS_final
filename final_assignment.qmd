@@ -1,0 +1,42 @@
+---
+title: "ENV S 193DS Final"
+author: "Sumaiya Alvi"
+date: "March 17, 2026"
+format: 
+  html:
+    toc: true # use this to display a table of contents
+execute:
+  message: false # use this to make sure messages don't show up
+  warning: false # use this to make sure warnings don't show up
+---
+
+[link to Github repository](https://github.com/sumaiyaalvi/ENVS-193DS_final.git)
+
+```{r}
+#| label: load packages and data
+#| message: false
+
+library(tidyverse) #general use
+library(here) #file organization
+library(janitor) #cleaning data frames
+library(readxl) #reading excel files
+
+kelp <- read_csv(
+  here( 
+    "data", #data folder
+    "Annual_Kelp_All_Years_20250903.csv" #kelp data 
+  ))
+
+screentime <- read_csv(
+  here( 
+    "data", #data folder
+    "screentime.csv" #personal data 
+  ))
+
+mopl <- read_csv(
+  here( 
+    "data", #data folder
+    "MOPL_nest-site_selection_Duchardt_et_al._2019.csv" #mountain plover data 
+  )) 
+```
+
