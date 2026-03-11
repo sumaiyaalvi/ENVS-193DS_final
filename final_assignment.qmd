@@ -12,6 +12,8 @@ execute:
 
 [link to Github repository](https://github.com/sumaiyaalvi/ENVS-193DS_final.git)
 
+# Set up
+
 ```{r}
 #| label: load packages and data
 #| message: false
@@ -39,4 +41,26 @@ mopl <- read_csv(
     "MOPL_nest-site_selection_Duchardt_et_al._2019.csv" #mountain plover data 
   )) 
 ```
+
+# Problem 1. Research Writing
+
+## a. Transparent statistical methods
+
+In **part 1**, they used a univariate general linear model to examine the relationship between precipitation and flooded wetland area.
+
+In **part 2**, they used a one-way analysis of variance (ANOVA) to test whether flooded wetland area differed across the water year classifications.
+
+## b. Figure needed
+
+A useful figure for the one-way ANOVA would be a boxplot showing flooded wetland area across water-year classifications. The x-axis should show the water year classification categories (wet, above normal, below normal, dry, and critical drought). The y-axis should show flooded wetland area (m²). Each boxplot would represent the distribution of flooded wetland area within each classification. Individual data points could also be added as jittered points to show the spread of the observations for each category. This figure would help readers visually compare flooded wetland area across the different water year classifications and better understand the results of the ANOVA test.
+
+## c. Suggestions for rewriting
+
+We did not find strong evidence that precipitation predicts flooded wetland area in the San Joaquin River Delta (univariate general linear model; test statistic = unknown; $\alpha$ = significance level; $p$ = 0.11). Flooded wetland area also did not appear to differ across water year classifications (wet, above normal, below normal, dry, critical drought), which we visualized with a boxplot comparing flooded wetland area across categories (one-way ANOVA; test statistic = unknown; df = unknown; $\alpha$ = significance level; $p$ = 0.12).
+
+## d. Interpretation
+
+One additional variable that could influence flooded wetland area is **water salinity**, which is a continuous variable. Higher salinity levels may make water less suitable for maintaining wetland habitat, so managers may choose not to flood or maintain wetlands when salinity is high, which could reduce the flooded area.
+
+
 
