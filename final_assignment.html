@@ -145,6 +145,13 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#a.-comparing-visualizations" id="toc-a.-comparing-visualizations" class="nav-link" data-scroll-target="#a.-comparing-visualizations">a. Comparing visualizations</a></li>
   <li><a href="#b.-designing-an-analysis" id="toc-b.-designing-an-analysis" class="nav-link" data-scroll-target="#b.-designing-an-analysis">b. Designing an analysis</a></li>
+  <li><a href="#c.-check-any-assumptions-and-run-your-test" id="toc-c.-check-any-assumptions-and-run-your-test" class="nav-link" data-scroll-target="#c.-check-any-assumptions-and-run-your-test">c.&nbsp;Check any assumptions and run your test</a>
+  <ul class="collapse">
+  <li><a href="#fit-the-model" id="toc-fit-the-model" class="nav-link" data-scroll-target="#fit-the-model">Fit the model</a></li>
+  <li><a href="#check-assumptions" id="toc-check-assumptions" class="nav-link" data-scroll-target="#check-assumptions">Check assumptions</a></li>
+  <li><a href="#run-anova-analysis" id="toc-run-anova-analysis" class="nav-link" data-scroll-target="#run-anova-analysis">Run ANOVA analysis</a></li>
+  <li><a href="#calculate-effect-size" id="toc-calculate-effect-size" class="nav-link" data-scroll-target="#calculate-effect-size">Calculate effect size</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -192,24 +199,26 @@ window.Quarto = {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co">#reading excel files</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa) <span class="co">#for simulated residuals</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggeffects) <span class="co">#for model predictions</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>kelp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>( </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data"</span>, <span class="co">#data folder</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Annual_Kelp_All_Years_20250903.csv"</span> <span class="co">#kelp data </span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>screentime <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>( </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data"</span>, <span class="co">#data folder</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"screentime.csv"</span> <span class="co">#personal data </span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>mopl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>( </span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data"</span>, <span class="co">#data folder</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MOPL_nest-site_selection_Duchardt_et_al._2019.csv"</span> <span class="co">#mountain plover data </span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  )) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) <span class="co">#to run levene test</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize) <span class="co">#to calculate effect size</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>kelp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>( </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data"</span>, <span class="co">#data folder</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Annual_Kelp_All_Years_20250903.csv"</span> <span class="co">#kelp data </span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>screentime <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>( </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data"</span>, <span class="co">#data folder</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"screentime.csv"</span> <span class="co">#personal data </span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>mopl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>( </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data"</span>, <span class="co">#data folder</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MOPL_nest-site_selection_Duchardt_et_al._2019.csv"</span> <span class="co">#mountain plover data </span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  )) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="problem-1.-research-writing" class="level1">
@@ -275,11 +284,11 @@ window.Quarto = {
 <pre><code># A tibble: 5 × 3
   site_name    year mean_fronds
   &lt;fct&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-1 Carpinteria  2004        3.67
-2 Naples       2020        7.41
-3 Carpinteria  2016        4.97
-4 Carpinteria  2002        9.79
-5 Carpinteria  2024        5.67</code></pre>
+1 Naples       2016        7.26
+2 Carpinteria  2021        6.13
+3 Isla Vista   2002        3.47
+4 Isla Vista   2007       23.6 
+5 Isla Vista   2017       25.0 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(kelp_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -557,6 +566,105 @@ vo_nest | Predicted |     95% CI
 <section id="b.-designing-an-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="b.-designing-an-analysis">b. Designing an analysis</h2>
 <p>One analysis that could be used is a one-way ANOVA to test whether my mean screen time differs across days of the week. This analysis is appropriate because my research question examines whether the amount of time spent on my phone changes depending on the day, specifically in relation to my schedule for the day. Screen time is a continuous response variable measured in hours, while day of the week is a categorical predictor variable, which makes ANOVA a suitable method for comparing mean screen time across different days.</p>
+</section>
+<section id="c.-check-any-assumptions-and-run-your-test" class="level2">
+<h2 class="anchored" data-anchor-id="c.-check-any-assumptions-and-run-your-test">c.&nbsp;Check any assumptions and run your test</h2>
+<section id="fit-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="fit-the-model">Fit the model</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># update column names for ease</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>screentime <span class="ot">&lt;-</span> screentime <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># fit the ANOVA model</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>anova_mod <span class="ot">&lt;-</span> <span class="fu">aov</span>(screen_time_hours <span class="sc">~</span> day_of_week, <span class="at">data =</span> screentime)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># view residual diagnostics</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anova_mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="final_assignment_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="final_assignment_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="final_assignment_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="final_assignment_files/figure-html/unnamed-chunk-8-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="check-assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="check-assumptions">Check assumptions</h3>
+<p><strong>Check 1: Normality of residuals</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shapiro-Wilk test for normality</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(anova_mod))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  residuals(anova_mod)
+W = 0.95131, p-value = 0.1833</code></pre>
+</div>
+</div>
+<p><strong>Check 2: Equal variances across groups</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(screen_time_hours <span class="sc">~</span> day_of_week, <span class="at">data =</span> screentime)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = median)
+      Df F value Pr(&gt;F)
+group  6  0.5242  0.784
+      23               </code></pre>
+</div>
+</div>
+<p>The assumptions of the ANOVA appear to be met. The residual diagnostic plots did not show any clear patterns or strong deviations from normality, suggesting that the residuals are approximately normally distributed. Additionally, the test for equal variances indicated that the variance in screen time is similar across days of the week. Therefore, the assumptions required to run the one-way ANOVA are reasonably satisfied.</p>
+</section>
+<section id="run-anova-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="run-anova-analysis">Run ANOVA analysis</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the one-way ANOVA</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)
+day_of_week  6   1.94  0.3226   0.152  0.987
+Residuals   23  48.88  2.1253               </code></pre>
+</div>
+</div>
+</section>
+<section id="calculate-effect-size" class="level3">
+<h3 class="anchored" data-anchor-id="calculate-effect-size">Calculate effect size</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eta_squared</span>(anova_mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Effect Size for ANOVA
+
+Parameter   | Eta2 |       95% CI
+---------------------------------
+day_of_week | 0.04 | [0.00, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].</code></pre>
+</div>
+</div>
+<p>The effect size for the ANOVA was small (<span class="math inline">\(\eta^2 = 0.04\)</span>). This means that only about 4% of the variation in screen time can be explained by the day of the week. Overall, this suggests that the day of the week has very little influence on screen time in this dataset. The results of the one-way ANOVA show that screen time does not significantly differ across days of the week (<span class="math inline">\(F(6,23)=0.152, p=0.987\)</span>). Because the p-value is much greater than 0.05, we fail to reject the null hypothesis that mean screen time is the same across all days. This suggests that the day of the week does not appear to have a meaningful effect on screen time in this dataset.</p>
+</section>
 </section>
 </section>
 

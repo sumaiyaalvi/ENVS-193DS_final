@@ -24,6 +24,8 @@ library(janitor) #cleaning data frames
 library(readxl) #reading excel files
 library(DHARMa) #for simulated residuals
 library(ggeffects) #for model predictions
+library(car) #to run levene test
+library(effectsize) #to calculate effect size
 
 kelp <- read_csv(
   here( 
@@ -308,11 +310,68 @@ The predicted probability of Mountain Plover nest site occupancy when visual obs
 
 One analysis that could be used is a one-way ANOVA to test whether my mean screen time differs across days of the week. This analysis is appropriate because my research question examines whether the amount of time spent on my phone changes depending on the day, specifically in relation to my schedule for the day. Screen time is a continuous response variable measured in hours, while day of the week is a categorical predictor variable, which makes ANOVA a suitable method for comparing mean screen time across different days.
 
+## c. Check any assumptions and run your test
+
+### Fit the model
+
+```{r}
+# update column names for ease
+screentime <- screentime |> 
+  clean_names()
+
+# fit the ANOVA model
+anova_mod <- aov(screen_time_hours ~ day_of_week, data = screentime)
+
+# view residual diagnostics
+plot(anova_mod)
+```
+
+### Check assumptions
+
+**Check 1: Normality of residuals**
+```{r}
+# Shapiro-Wilk test for normality
+shapiro.test(residuals(anova_mod))
+```
+**Check 2: Equal variances across groups**
+```{r}
+leveneTest(screen_time_hours ~ day_of_week, data = screentime)
+```
+The assumptions of the ANOVA appear to be met. The residual diagnostic plots did not show any clear patterns or strong deviations from normality, suggesting that the residuals are approximately normally distributed. Additionally, the test for equal variances indicated that the variance in screen time is similar across days of the week. Therefore, the assumptions required to run the one-way ANOVA are reasonably satisfied.
+
+### Run ANOVA analysis
+
+```{r}
+# run the one-way ANOVA
+summary(anova_mod)
+```
+
+### Calculate effect size
+```{r}
+eta_squared(anova_mod)
+```
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The effect size for the ANOVA was small ($\eta^2 = 0.04$). This means that only about 4% of the variation in screen time can be explained by the day of the week. Overall, this suggests that the day of the week has very little influence on screen time in this dataset. The results of the one-way ANOVA show that screen time does not significantly differ across days of the week ($F(6,23)=0.152, p=0.987$). Because the p-value is much greater than 0.05, we fail to reject the null hypothesis that mean screen time is the same across all days. This suggests that the day of the week does not appear to have a meaningful effect on screen time in this dataset.
 
 
 
