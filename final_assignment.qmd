@@ -161,9 +161,22 @@ ggplot(
 * Isla Vista shows the **most variation** in mean kelp fronds per year. The red line moves up and down a lot across the y-axis over time, ranging from about 5 fronds to nearly 40 fronds across the years on the x-axis.  
 * Carpinteria shows the **least variation** in mean kelp fronds per year. The green line stays more stable across the plot, with values mostly between about 3 and 13 fronds and smaller changes along the y-axis across the years.
 
+# Problem 3. Data analysis
 
+## a. Response variable
 
+In this dataset, the response variable represents whether a location was used as a Mountain Plover nest site. A value of 1 (used) indicates that the site was occupied by a nesting Mountain Plover, while 0 (available) indicates a location that was available but not used for nesting.
 
+## b. Purpose of study
 
+* **Visual obstruction:** Visual obstruction is a continuous variable because it measures the height of vegetation that blocks visibility at the nest. As visual obstruction increases, the probability of Mountain Plover nest site use would likely decrease because plovers tend to avoid areas with taller or denser vegetation and prefer more open habitat with shorter vegetation and exposed ground. This information is discussed in the Discussion section, paragraph 4, where the authors explain that plovers avoided nesting in areas with greater vegetation height and visual obstruction.  
+* **Distance to prairie dog colony edge:** Distance to the prairie dog colony edge is a continuous variable because it measures how far a nest site is from the colony boundary. As distance from the colony edge increases, the probability of Mountain Plover nest site use would likely decrease because nesting closer to colony edges may allow adults easier access to resources such as taller vegetation than the colony that can provide protection for chicks. This idea is discussed in the Discussion section, paragraph 3, where the authors explain how distance to colony edge influenced plover presence and nesting behavior.
 
+## c. Table of models
 
+| Model | Visual obstruction | Distance to prairie dog colony | Model description |
+|------|--------------------|--------------------------------|------------------|
+| 1 | No | No | Null model |
+| 2 | Yes | No | Model with visual obstruction only |
+| 3 | No | Yes | Model with distance to colony edge only |
+| 4 | Yes | Yes | Saturated model with both predictors |

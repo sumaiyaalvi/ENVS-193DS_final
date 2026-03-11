@@ -128,6 +128,12 @@ window.Quarto = {
   <li><a href="#c.-visualize-the-data" id="toc-c.-visualize-the-data" class="nav-link" data-scroll-target="#c.-visualize-the-data">c.&nbsp;Visualize the data</a></li>
   <li><a href="#d.-interpretation-1" id="toc-d.-interpretation-1" class="nav-link" data-scroll-target="#d.-interpretation-1">d.&nbsp;Interpretation</a></li>
   </ul></li>
+  <li><a href="#problem-3.-data-analysis" id="toc-problem-3.-data-analysis" class="nav-link" data-scroll-target="#problem-3.-data-analysis">Problem 3. Data analysis</a>
+  <ul class="collapse">
+  <li><a href="#a.-response-variable" id="toc-a.-response-variable" class="nav-link" data-scroll-target="#a.-response-variable">a. Response variable</a></li>
+  <li><a href="#b.-purpose-of-study" id="toc-b.-purpose-of-study" class="nav-link" data-scroll-target="#b.-purpose-of-study">b. Purpose of study</a></li>
+  <li><a href="#c.-table-of-models" id="toc-c.-table-of-models" class="nav-link" data-scroll-target="#c.-table-of-models">c.&nbsp;Table of models</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -255,11 +261,11 @@ window.Quarto = {
 <pre><code># A tibble: 5 × 3
   site_name    year mean_fronds
   &lt;fct&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-1 Naples       2025        8.44
-2 Isla Vista   2018       34.5 
-3 Isla Vista   2019       12.1 
-4 Naples       2000        1.89
-5 Carpinteria  2025       12.9 </code></pre>
+1 Naples       2003        9.26
+2 Isla Vista   2024       10.3 
+3 Carpinteria  2018        4.21
+4 Isla Vista   2020       25.0 
+5 Naples       2022        7.99</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(kelp_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -333,6 +339,66 @@ window.Quarto = {
 </li>
 <li>Carpinteria shows the <strong>least variation</strong> in mean kelp fronds per year. The green line stays more stable across the plot, with values mostly between about 3 and 13 fronds and smaller changes along the y-axis across the years.</li>
 </ul>
+</section>
+</section>
+<section id="problem-3.-data-analysis" class="level1">
+<h1>Problem 3. Data analysis</h1>
+<section id="a.-response-variable" class="level2">
+<h2 class="anchored" data-anchor-id="a.-response-variable">a. Response variable</h2>
+<p>In this dataset, the response variable represents whether a location was used as a Mountain Plover nest site. A value of 1 (used) indicates that the site was occupied by a nesting Mountain Plover, while 0 (available) indicates a location that was available but not used for nesting.</p>
+</section>
+<section id="b.-purpose-of-study" class="level2">
+<h2 class="anchored" data-anchor-id="b.-purpose-of-study">b. Purpose of study</h2>
+<ul>
+<li><strong>Visual obstruction:</strong> Visual obstruction is a continuous variable because it measures the height of vegetation that blocks visibility at the nest. As visual obstruction increases, the probability of Mountain Plover nest site use would likely decrease because plovers tend to avoid areas with taller or denser vegetation and prefer more open habitat with shorter vegetation and exposed ground. This information is discussed in the Discussion section, paragraph 4, where the authors explain that plovers avoided nesting in areas with greater vegetation height and visual obstruction.<br>
+</li>
+<li><strong>Distance to prairie dog colony edge:</strong> Distance to the prairie dog colony edge is a continuous variable because it measures how far a nest site is from the colony boundary. As distance from the colony edge increases, the probability of Mountain Plover nest site use would likely decrease because nesting closer to colony edges may allow adults easier access to resources such as taller vegetation than the colony that can provide protection for chicks. This idea is discussed in the Discussion section, paragraph 3, where the authors explain how distance to colony edge influenced plover presence and nesting behavior.</li>
+</ul>
+</section>
+<section id="c.-table-of-models" class="level2">
+<h2 class="anchored" data-anchor-id="c.-table-of-models">c.&nbsp;Table of models</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 26%">
+<col style="width: 42%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Visual obstruction</th>
+<th>Distance to prairie dog colony</th>
+<th>Model description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>No</td>
+<td>No</td>
+<td>Null model</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Yes</td>
+<td>No</td>
+<td>Model with visual obstruction only</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>No</td>
+<td>Yes</td>
+<td>Model with distance to colony edge only</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Saturated model with both predictors</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 
