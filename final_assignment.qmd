@@ -62,5 +62,55 @@ We did not find strong evidence that precipitation predicts flooded wetland area
 
 One additional variable that could influence flooded wetland area is **water salinity**, which is a continuous variable. Higher salinity levels may make water less suitable for maintaining wetland habitat, so managers may choose not to flood or maintain wetlands when salinity is high, which could reduce the flooded area.
 
+# Problem 2. Data visualization
+
+## a. Cleaning and summarizing
+
+```{r}
+kelp_clean <- kelp |> 
+  # function 3:
+  # make all column names lowercase and consistent
+  clean_names() |> 
+  # function 6
+  # keep only the relevant observations
+  filter(site %in% c("IVEE", "NAPL", "CARP")) |> 
+  # function 1
+  # remove the specific observations that meet all 3 of these criteria
+  filter(!(date == "2000-09-22" & transect == "6" & quad == "40")) |> 
+  # function 8
+  # create new site_name column with full site names 
+  mutate(site_name = case_when(
+  site == "NAPL" ~ "Naples",
+  site == "IVEE" ~ "Isla Vista",
+  site == "CARP" ~ "Carpinteria"
+  )) |> 
+  # function 2
+  # convert site_name to a factor and set the 3 factor levels
+  mutate(site_name = as_factor(site_name),
+         site_name = fct_relevel(site_name,
+                               "Naples", "Isla Vista", "Carpinteria")) |> 
+  # function 5
+  # group data by site_name and year
+  group_by(site_name, year) |> 
+  # function 7
+  # calculate the mean number of fronds for each site-year combination
+  summarize(mean_fronds = mean(fronds)) |> 
+  # function 4
+  # remove the grouping by site_name and year
+  ungroup()
+
+kelp_clean %>%
+  slice_sample(n = 5)
+
+str(kelp_clean)
+```
+
+
+
+
+
+
+
+
 
 
