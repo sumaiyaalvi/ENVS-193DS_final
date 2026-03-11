@@ -22,6 +22,8 @@ library(tidyverse) #general use
 library(here) #file organization
 library(janitor) #cleaning data frames
 library(readxl) #reading excel files
+library(DHARMa) #for simulated residuals
+library(ggeffects) #for model predictions
 
 kelp <- read_csv(
   here( 
@@ -163,6 +165,19 @@ ggplot(
 
 # Problem 3. Data analysis
 
+```{r}
+#| label: cleaning data
+#| include: false
+
+# convert response variable to binary
+mopl$used_bin <- ifelse(mopl$ID == "used", 1, 0)
+
+# make sure predictors are numeric
+mopl$vo_nest <- as.numeric(mopl$vo_nest)
+mopl$edgedist <- as.numeric(mopl$edgedist)
+```
+
+
 ## a. Response variable
 
 In this dataset, the response variable represents whether a location was used as a Mountain Plover nest site. A value of 1 (used) indicates that the site was occupied by a nesting Mountain Plover, while 0 (available) indicates a location that was available but not used for nesting.
@@ -180,3 +195,116 @@ In this dataset, the response variable represents whether a location was used as
 | 2 | Yes | No | Model with visual obstruction only |
 | 3 | No | Yes | Model with distance to colony edge only |
 | 4 | Yes | Yes | Saturated model with both predictors |
+
+## d. Run the models
+
+```{r}
+# Run the models (logistic regression)
+
+# Model 1: Null model (intercept only)
+mod1 <- glm(used_bin ~ 1, data = mopl, family = binomial)
+
+# Model 2: Visual obstruction only
+mod2 <- glm(used_bin ~ vo_nest, data = mopl, family = binomial)
+
+# Model 3: Distance to colony edge only
+mod3 <- glm(used_bin ~ edgedist, data = mopl, family = binomial)
+
+# Model 4: Saturated model (both predictors)
+mod4 <- glm(used_bin ~ vo_nest + edgedist, data = mopl, family = binomial)
+```
+
+
+## e. Select the best model
+
+```{r}
+# Compare models using AIC
+AIC(mod1, mod2, mod3, mod4)
+```
+The best model as determined by Akaike’s Information Criterion (AIC) included visual obstruction at the nest as a predictor of Mountain Plover nest site use (model 2, AIC = 331.769). This model had the lowest AIC value compared to the null model, the model with distance to prairie dog colony edge, and the model including both predictors.
+
+## f. Check the diagnostics
+
+```{r}
+# look at the diagnostics using DHARMa
+plot(simulateResiduals(mod2))
+```
+The DHARMa diagnostic plot suggests that the model assumptions are met. The KS test indicates that the residuals follow a uniform distribution, the dispersion test shows no evidence of overdispersion, and the outlier test indicates no influential outliers. 
+
+## g. Visualize the model predictions
+```{r}
+# generate predicted probabilities and 95% confidence intervals
+pred_data <- ggpredict(mod2, terms = "vo_nest [all]")
+
+# plot the underlying data and model predictions
+ggplot(mopl,
+       aes(x = vo_nest,
+           y = used_bin)) +
+  # add the observed 0/1 nest-use data
+  geom_point(size = 3,
+             alpha = 0.4,
+             color = "darkolivegreen") +
+  # add the 95% confidence interval ribbon around predictions
+  geom_ribbon(data = pred_data,
+              aes(x = x,
+                  y = predicted,
+                  ymin = conf.low,
+                  ymax = conf.high),
+              fill = "mistyrose3",
+              alpha = 0.4) +
+  # add the predicted probability line
+  geom_line(data = pred_data,
+            aes(x = x,
+                y = predicted),
+            color = "firebrick",
+            linewidth = 1,
+            inherit.aes = FALSE) +
+  # clear axis labels and title
+  labs(
+    x = "Visual obstruction at nest (cm)",
+    y = "Probability of Mountain Plover nest site use",
+    title = "Predicted Mountain Plover nest site use by visual obstruction"
+  ) +
+  # keep probabilities between 0 and 1
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = c(0, 1)) +
+  # remove gridlines
+  theme_classic() +
+  theme(
+    plot.title.position = "plot", # keep title aligned with plot
+    plot.title = element_text(size = 12) # slightly reduce title size
+  )
+```
+
+## h. Write a caption for your figure
+
+**Figure 3. Predicted Mountain Plover nest site use by visual obstruction.** 
+The points show observed nest site use (1 = used, 0 = available) plotted against visual obstruction at the nest. The solid line represents the predicted probability of nest site use from the logistic regression model, and the shaded region shows the 95% confidence interval around the prediction. Data source: Duchardt, Courtney; Beck, Jeffrey; Augustine, David (2020). Data from: Mountain Plover habitat selection and nest survival in relation to weather variability and spatial attributes of Black-tailed Prairie Dog disturbance [Dataset]. Dryad. [https://doi.org/10.5061/dryad.ttdz08kt7](https://doi.org/10.5061/dryad.ttdz08kt7) 
+
+## i. Calculate model predictions
+
+```{r}
+# set visual obstruction = 0
+pred_vo0 <- ggpredict(mod2, terms = "vo_nest [0]")
+
+# display the predicted probability and 95% confidence interval
+pred_vo0
+```
+
+## j. Interpret your results
+
+The predicted probability of Mountain Plover nest site occupancy when visual obstruction is 0 is about 0.73 (95% CI: 0.65–0.80). The figure shows that the probability of nest site use decreases as visual obstruction increases, which indicates that plovers prefer more open areas with little vegetation. Distance to prairie dog colony edge did not appear to strongly influence occupancy because the best model only included visual obstruction as a predictor. Biologically, this pattern makes sense because as the paper explains, Mountain Plovers might prefer open habitats with low vegetation where they can better detect predators and blend into the ground.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
