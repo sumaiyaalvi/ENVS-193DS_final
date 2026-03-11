@@ -295,10 +295,18 @@ pred_vo0
 
 The predicted probability of Mountain Plover nest site occupancy when visual obstruction is 0 is about 0.73 (95% CI: 0.65–0.80). The figure shows that the probability of nest site use decreases as visual obstruction increases, which indicates that plovers prefer more open areas with little vegetation. Distance to prairie dog colony edge did not appear to strongly influence occupancy because the best model only included visual obstruction as a predictor. Biologically, this pattern makes sense because as the paper explains, Mountain Plovers might prefer open habitats with low vegetation where they can better detect predators and blend into the ground.
 
+# Problem 4. Affective and exploratory visualizations
 
+## a. Comparing visualizations
 
+* **How are the visualizations different from each other in the way you have represented your data?:** The exploratory visualizations mainly show simple relationships in the data, such as screen time by day of the week and the relationship between class/study time and screen time. The affective visualization represents many variables at once using shapes, fill patterns, outlines, and symbols to show screen time, class/study time, social plans, exams, and sleep. This makes it more detailed and visually complex than the exploratory plots.  
+* **What similarities do you see between all your visualizations?:** All of the visualizations represent the same underlying data about my daily activities and screen time. They each show patterns related to how my screen time varies with things like study time or daily schedules.  
+* **What patterns do you see in each visualization? Are these different between visualizations?:** The exploratory plots suggest that my screen time tends to be slightly lower on days with more class or study hours, while higher screen time often occurs when I have less work to do. The affective visualization shows a similar pattern, where days with high class/study time usually have shapes representing medium screen time, not higher. The patterns are mostly the same across visualizations, but the affective visualization highlights additional context like social plans, exams, and sleep that may also influence screen time.
+* **What kinds of feedback did you get during week 9 in workshop?:** The feedback I received during week 9 was mostly similar to changes I was already planning to make. My peers suggested adding color to represent stress levels, making the icons larger, and finding a clearer way to show social plans. One classmate also suggested using a phone as the background, which I liked and am going to implement because it fits well with the theme of screen time.
 
+## b. Designing an analysis
 
+One analysis that could be used is a one-way ANOVA to test whether my mean screen time differs across days of the week. This analysis is appropriate because my research question examines whether the amount of time spent on my phone changes depending on the day, specifically in relation to my schedule for the day. Screen time is a continuous response variable measured in hours, while day of the week is a categorical predictor variable, which makes ANOVA a suitable method for comparing mean screen time across different days.
 
 
 

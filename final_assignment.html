@@ -141,6 +141,11 @@ window.Quarto = {
   <li><a href="#i.-calculate-model-predictions" id="toc-i.-calculate-model-predictions" class="nav-link" data-scroll-target="#i.-calculate-model-predictions">i. Calculate model predictions</a></li>
   <li><a href="#j.-interpret-your-results" id="toc-j.-interpret-your-results" class="nav-link" data-scroll-target="#j.-interpret-your-results">j. Interpret your results</a></li>
   </ul></li>
+  <li><a href="#problem-4.-affective-and-exploratory-visualizations" id="toc-problem-4.-affective-and-exploratory-visualizations" class="nav-link" data-scroll-target="#problem-4.-affective-and-exploratory-visualizations">Problem 4. Affective and exploratory visualizations</a>
+  <ul class="collapse">
+  <li><a href="#a.-comparing-visualizations" id="toc-a.-comparing-visualizations" class="nav-link" data-scroll-target="#a.-comparing-visualizations">a. Comparing visualizations</a></li>
+  <li><a href="#b.-designing-an-analysis" id="toc-b.-designing-an-analysis" class="nav-link" data-scroll-target="#b.-designing-an-analysis">b. Designing an analysis</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -270,11 +275,11 @@ window.Quarto = {
 <pre><code># A tibble: 5 × 3
   site_name    year mean_fronds
   &lt;fct&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-1 Carpinteria  2015        5.03
-2 Isla Vista   2016        7.74
-3 Naples       2007       17.2 
-4 Isla Vista   2020       25.0 
-5 Carpinteria  2025       12.9 </code></pre>
+1 Carpinteria  2004        3.67
+2 Naples       2020        7.41
+3 Carpinteria  2016        4.97
+4 Carpinteria  2002        9.79
+5 Carpinteria  2024        5.67</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(kelp_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -534,6 +539,24 @@ vo_nest | Predicted |     95% CI
 <section id="j.-interpret-your-results" class="level2">
 <h2 class="anchored" data-anchor-id="j.-interpret-your-results">j. Interpret your results</h2>
 <p>The predicted probability of Mountain Plover nest site occupancy when visual obstruction is 0 is about 0.73 (95% CI: 0.65–0.80). The figure shows that the probability of nest site use decreases as visual obstruction increases, which indicates that plovers prefer more open areas with little vegetation. Distance to prairie dog colony edge did not appear to strongly influence occupancy because the best model only included visual obstruction as a predictor. Biologically, this pattern makes sense because as the paper explains, Mountain Plovers might prefer open habitats with low vegetation where they can better detect predators and blend into the ground.</p>
+</section>
+</section>
+<section id="problem-4.-affective-and-exploratory-visualizations" class="level1">
+<h1>Problem 4. Affective and exploratory visualizations</h1>
+<section id="a.-comparing-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="a.-comparing-visualizations">a. Comparing visualizations</h2>
+<ul>
+<li><strong>How are the visualizations different from each other in the way you have represented your data?:</strong> The exploratory visualizations mainly show simple relationships in the data, such as screen time by day of the week and the relationship between class/study time and screen time. The affective visualization represents many variables at once using shapes, fill patterns, outlines, and symbols to show screen time, class/study time, social plans, exams, and sleep. This makes it more detailed and visually complex than the exploratory plots.<br>
+</li>
+<li><strong>What similarities do you see between all your visualizations?:</strong> All of the visualizations represent the same underlying data about my daily activities and screen time. They each show patterns related to how my screen time varies with things like study time or daily schedules.<br>
+</li>
+<li><strong>What patterns do you see in each visualization? Are these different between visualizations?:</strong> The exploratory plots suggest that my screen time tends to be slightly lower on days with more class or study hours, while higher screen time often occurs when I have less work to do. The affective visualization shows a similar pattern, where days with high class/study time usually have shapes representing medium screen time, not higher. The patterns are mostly the same across visualizations, but the affective visualization highlights additional context like social plans, exams, and sleep that may also influence screen time.</li>
+<li><strong>What kinds of feedback did you get during week 9 in workshop?:</strong> The feedback I received during week 9 was mostly similar to changes I was already planning to make. My peers suggested adding color to represent stress levels, making the icons larger, and finding a clearer way to show social plans. One classmate also suggested using a phone as the background, which I liked and am going to implement because it fits well with the theme of screen time.</li>
+</ul>
+</section>
+<section id="b.-designing-an-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="b.-designing-an-analysis">b. Designing an analysis</h2>
+<p>One analysis that could be used is a one-way ANOVA to test whether my mean screen time differs across days of the week. This analysis is appropriate because my research question examines whether the amount of time spent on my phone changes depending on the day, specifically in relation to my schedule for the day. Screen time is a continuous response variable measured in hours, while day of the week is a categorical predictor variable, which makes ANOVA a suitable method for comparing mean screen time across different days.</p>
 </section>
 </section>
 
