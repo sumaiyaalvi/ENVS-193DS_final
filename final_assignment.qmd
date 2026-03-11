@@ -156,7 +156,10 @@ ggplot(
   )
 ```
 
+## d. Interpretation
 
+* Isla Vista shows the **most variation** in mean kelp fronds per year. The red line moves up and down a lot across the y-axis over time, ranging from about 5 fronds to nearly 40 fronds across the years on the x-axis.  
+* Carpinteria shows the **least variation** in mean kelp fronds per year. The green line stays more stable across the plot, with values mostly between about 3 and 13 fronds and smaller changes along the y-axis across the years.
 
 
 

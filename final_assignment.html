@@ -126,6 +126,7 @@ window.Quarto = {
   <li><a href="#a.-cleaning-and-summarizing" id="toc-a.-cleaning-and-summarizing" class="nav-link" data-scroll-target="#a.-cleaning-and-summarizing">a. Cleaning and summarizing</a></li>
   <li><a href="#b.-understanding-the-data" id="toc-b.-understanding-the-data" class="nav-link" data-scroll-target="#b.-understanding-the-data">b. Understanding the data</a></li>
   <li><a href="#c.-visualize-the-data" id="toc-c.-visualize-the-data" class="nav-link" data-scroll-target="#c.-visualize-the-data">c.&nbsp;Visualize the data</a></li>
+  <li><a href="#d.-interpretation-1" id="toc-d.-interpretation-1" class="nav-link" data-scroll-target="#d.-interpretation-1">d.&nbsp;Interpretation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -254,11 +255,11 @@ window.Quarto = {
 <pre><code># A tibble: 5 × 3
   site_name    year mean_fronds
   &lt;fct&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-1 Naples       2016        7.26
-2 Carpinteria  2013        2.93
-3 Naples       2004        7.81
-4 Naples       2006        5.11
-5 Naples       2015       10.6 </code></pre>
+1 Naples       2025        8.44
+2 Isla Vista   2018       34.5 
+3 Isla Vista   2019       12.1 
+4 Naples       2000        1.89
+5 Carpinteria  2025       12.9 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(kelp_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -324,6 +325,14 @@ window.Quarto = {
 </div>
 </div>
 </div>
+</section>
+<section id="d.-interpretation-1" class="level2">
+<h2 class="anchored" data-anchor-id="d.-interpretation-1">d.&nbsp;Interpretation</h2>
+<ul>
+<li>Isla Vista shows the <strong>most variation</strong> in mean kelp fronds per year. The red line moves up and down a lot across the y-axis over time, ranging from about 5 fronds to nearly 40 fronds across the years on the x-axis.<br>
+</li>
+<li>Carpinteria shows the <strong>least variation</strong> in mean kelp fronds per year. The green line stays more stable across the plot, with values mostly between about 3 and 13 fronds and smaller changes along the y-axis across the years.</li>
+</ul>
 </section>
 </section>
 
