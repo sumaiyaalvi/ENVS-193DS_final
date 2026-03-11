@@ -104,7 +104,57 @@ kelp_clean %>%
 
 str(kelp_clean)
 ```
+## b. Understanding the data
 
+The value for fronds in transect 6, quad 40 on 2000-09-22 is -99999, which represents a missing value rather than an actual count of kelp fronds. According to the dataset information in the Files and Data Links section, the code -99999 indicates that data is missing, so this observation is removed before analysis.
+
+## c. Visualize the data
+
+```{r}
+#| fig-height: 6
+#| fig-width: 10
+
+ggplot(
+  # using cleaned kelp data
+  data = kelp_clean,
+  aes(
+    x = year, # setting x and y axes as year and mean fronds
+    y = mean_fronds, 
+    color = site_name # color to show which site the data is from
+    )) +
+  # adding a line connecting yearly means for each site
+  geom_line(
+    linewidth = 0.8,
+    alpha = 0.9) +
+  # adding points for each year
+  geom_point(
+    size = 2,
+    alpha = 0.9) +
+  # adding plot title and axis labels
+  labs(
+    x = "Year",
+    y = "Mean kelp fronds per year",
+    title = "Sites vary in mean kelp fronds per year",
+    color = "Site") +
+  # changing colors for each site from default
+  scale_color_manual(
+    values = c(
+      "Naples" = "steelblue",
+      "Isla Vista" = "firebrick",
+      "Carpinteria" = "darkolivegreen")
+  ) +
+  # grid panel with no border
+  theme_minimal() +
+  theme(
+    # using a custom font that is consistent across all text
+    text = element_text(family = "Courier"),
+    # adjusting title size and position
+    plot.title = element_text(size = 13, hjust = 0.5),
+    # adjusting legend text
+    legend.title = element_text(size = 11),
+    legend.text = element_text(size = 10)
+  )
+```
 
 
 
