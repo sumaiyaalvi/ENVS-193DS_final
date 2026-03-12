@@ -109,6 +109,7 @@ kelp_clean %>%
 
 str(kelp_clean)
 ```
+
 ## b. Understanding the data
 
 The value for fronds in transect 6, quad 40 on 2000-09-22 is -99999, which represents a missing value rather than an actual count of kelp fronds. According to the dataset information in the Files and Data Links section, the code -99999 indicates that data is missing, so this observation is removed before analysis.
@@ -163,8 +164,8 @@ ggplot(
 
 ## d. Interpretation
 
-* Isla Vista shows the **most variation** in mean kelp fronds per year. The red line moves up and down a lot across the y-axis over time, ranging from about 5 fronds to nearly 40 fronds across the years on the x-axis.  
-* Carpinteria shows the **least variation** in mean kelp fronds per year. The green line stays more stable across the plot, with values mostly between about 3 and 13 fronds and smaller changes along the y-axis across the years.
+-   Isla Vista shows the **most variation** in mean kelp fronds per year. The red line moves up and down a lot across the y-axis over time, ranging from about 5 fronds to nearly 40 fronds across the years on the x-axis.\
+-   Carpinteria shows the **least variation** in mean kelp fronds per year. The green line stays more stable across the plot, with values mostly between about 3 and 13 fronds and smaller changes along the y-axis across the years.
 
 # Problem 3. Data analysis
 
@@ -174,13 +175,13 @@ In this dataset, the response variable represents whether a location was used as
 
 ## b. Purpose of study
 
-* **Visual obstruction:** Visual obstruction is a continuous variable because it measures the height of vegetation that blocks visibility at the nest. As visual obstruction increases, the probability of Mountain Plover nest site use would likely decrease because plovers tend to avoid areas with taller or denser vegetation and prefer more open habitat with shorter vegetation and exposed ground. This information is discussed in the Discussion section, paragraph 4, where the authors explain that plovers avoided nesting in areas with greater vegetation height and visual obstruction.  
-* **Distance to prairie dog colony edge:** Distance to the prairie dog colony edge is a continuous variable because it measures how far a nest site is from the colony boundary. As distance from the colony edge increases, the probability of Mountain Plover nest site use would likely decrease because nesting closer to colony edges may allow adults easier access to resources such as taller vegetation than the colony that can provide protection for chicks. This idea is discussed in the Discussion section, paragraph 3, where the authors explain how distance to colony edge influenced plover presence and nesting behavior.
+-   **Visual obstruction:** Visual obstruction is a continuous variable because it measures the height of vegetation that blocks visibility at the nest. As visual obstruction increases, the probability of Mountain Plover nest site use would likely decrease because plovers tend to avoid areas with taller or denser vegetation and prefer more open habitat with shorter vegetation and exposed ground. This information is discussed in the Discussion section, paragraph 4, where the authors explain that plovers avoided nesting in areas with greater vegetation height and visual obstruction.\
+-   **Distance to prairie dog colony edge:** Distance to the prairie dog colony edge is a continuous variable because it measures how far a nest site is from the colony boundary. As distance from the colony edge increases, the probability of Mountain Plover nest site use would likely decrease because nesting closer to colony edges may allow adults easier access to resources such as taller vegetation than the colony that can provide protection for chicks. This idea is discussed in the Discussion section, paragraph 3, where the authors explain how distance to colony edge influenced plover presence and nesting behavior.
 
 ## c. Table of models
 
 | Model | Visual obstruction | Distance to prairie dog colony | Model description |
-|------|--------------------|--------------------------------|------------------|
+|---------------|----------------|---------------------------|---------------|
 | 1 | No | No | Null model |
 | 2 | Yes | No | Model with visual obstruction only |
 | 3 | No | Yes | Model with distance to colony edge only |
@@ -212,13 +213,13 @@ mod3 <- glm(used_bin ~ edgedist, data = mopl_clean, family = binomial)
 mod4 <- glm(used_bin ~ vo_nest + edgedist, data = mopl_clean, family = binomial)
 ```
 
-
 ## e. Select the best model
 
 ```{r}
 # Compare models using AIC
 AIC(mod1, mod2, mod3, mod4)
 ```
+
 The best model as determined by Akaike’s Information Criterion (AIC) included visual obstruction at the nest as a predictor of Mountain Plover nest site use (model 2, AIC = 331.769). This model had the lowest AIC value compared to the null model, the model with distance to prairie dog colony edge, and the model including both predictors.
 
 ## f. Check the diagnostics
@@ -227,9 +228,11 @@ The best model as determined by Akaike’s Information Criterion (AIC) included 
 # look at the diagnostics using DHARMa
 plot(simulateResiduals(mod2))
 ```
-The DHARMa diagnostic plot suggests that the model assumptions are met. The KS test indicates that the residuals follow a uniform distribution, the dispersion test shows no evidence of overdispersion, and the outlier test indicates no influential outliers. 
+
+The DHARMa diagnostic plot suggests that the model assumptions are met. The KS test indicates that the residuals follow a uniform distribution, the dispersion test shows no evidence of overdispersion, and the outlier test indicates no influential outliers.
 
 ## g. Visualize the model predictions
+
 ```{r}
 # generate predicted probabilities and 95% confidence intervals
 pred_data <- ggpredict(mod2, terms = "vo_nest [all]")
@@ -277,8 +280,7 @@ ggplot(mopl_clean,
 
 ## h. Write a caption for your figure
 
-**Figure 3. Predicted Mountain Plover nest site use by visual obstruction.** 
-The points show observed nest site use (1 = used, 0 = available) plotted against visual obstruction at the nest. The solid line represents the predicted probability of nest site use from the logistic regression model, and the shaded region shows the 95% confidence interval around the prediction. Data source: Duchardt, Courtney; Beck, Jeffrey; Augustine, David (2020). Data from: Mountain Plover habitat selection and nest survival in relation to weather variability and spatial attributes of Black-tailed Prairie Dog disturbance [Dataset]. Dryad. [https://doi.org/10.5061/dryad.ttdz08kt7](https://doi.org/10.5061/dryad.ttdz08kt7) 
+**Figure 3. Predicted Mountain Plover nest site use by visual obstruction.** The points show observed nest site use (1 = used, 0 = available) plotted against visual obstruction at the nest. The solid line represents the predicted probability of nest site use from the logistic regression model, and the shaded region shows the 95% confidence interval around the prediction. Data source: Duchardt, Courtney; Beck, Jeffrey; Augustine, David (2020). Data from: Mountain Plover habitat selection and nest survival in relation to weather variability and spatial attributes of Black-tailed Prairie Dog disturbance \[Dataset\]. Dryad. <https://doi.org/10.5061/dryad.ttdz08kt7>
 
 ## i. Calculate model predictions
 
@@ -298,10 +300,10 @@ The predicted probability of Mountain Plover nest site occupancy when visual obs
 
 ## a. Comparing visualizations
 
-* **How are the visualizations different from each other in the way you have represented your data?:** The exploratory visualizations mainly show simple relationships in the data, such as screen time by day of the week and the relationship between class/study time and screen time. The affective visualization represents many variables at once using shapes, fill patterns, outlines, and symbols to show screen time, class/study time, social plans, exams, and sleep. This makes it more detailed and visually complex than the exploratory plots.  
-* **What similarities do you see between all your visualizations?:** All of the visualizations represent the same underlying data about my daily activities and screen time. They each show patterns related to how my screen time varies with things like study time or daily schedules.  
-* **What patterns do you see in each visualization? Are these different between visualizations?:** The exploratory plots suggest that my screen time tends to be slightly lower on days with more class or study hours, while higher screen time often occurs when I have less work to do. The affective visualization shows a similar pattern, where days with high class/study time usually have shapes representing medium screen time, not higher. The patterns are mostly the same across visualizations, but the affective visualization highlights additional context like social plans, exams, and sleep that may also influence screen time.
-* **What kinds of feedback did you get during week 9 in workshop?:** The feedback I received during week 9 was mostly similar to changes I was already planning to make. My peers suggested adding color to represent stress levels, making the icons larger, and finding a clearer way to show social plans. One classmate also suggested using a phone as the background, which I liked and am going to implement because it fits well with the theme of screen time.
+-   **How are the visualizations different from each other in the way you have represented your data?:** The exploratory visualizations mainly show simple relationships in the data, such as screen time by day of the week and the relationship between class/study time and screen time. The affective visualization represents many variables at once using shapes, fill patterns, outlines, and symbols to show screen time, class/study time, social plans, exams, and sleep. This makes it more detailed and visually complex than the exploratory plots.\
+-   **What similarities do you see between all your visualizations?:** All of the visualizations represent the same underlying data about my daily activities and screen time. They each show patterns related to how my screen time varies with things like study time or daily schedules.\
+-   **What patterns do you see in each visualization? Are these different between visualizations?:** The exploratory plots suggest that my screen time tends to be slightly lower on days with more class or study hours, while higher screen time often occurs when I have less work to do. The affective visualization shows a similar pattern, where days with high class/study time usually have shapes representing medium screen time, not higher. The patterns are mostly the same across visualizations, but the affective visualization highlights additional context like social plans, exams, and sleep that may also influence screen time.
+-   **What kinds of feedback did you get during week 9 in workshop?:** The feedback I received during week 9 was mostly similar to changes I was already planning to make. My peers suggested adding color to represent stress levels, making the icons larger, and finding a clearer way to show social plans. One classmate also suggested using a phone as the background, which I liked and am going to implement because it fits well with the theme of screen time.
 
 ## b. Designing an analysis
 
@@ -330,15 +332,19 @@ plot(anova_mod)
 ### Check assumptions
 
 **Check 1: Normality of residuals**
+
 ```{r}
 # Shapiro-Wilk test for normality
 shapiro.test(residuals(anova_mod))
 ```
+
 **Check 2: Equal variances across groups**
+
 ```{r}
 # using leveneTest() from cars package
 leveneTest(screen_time_hours ~ day_of_week, data = screentime)
 ```
+
 The assumptions of the ANOVA appear to be met. The residual diagnostic plots did not show any clear patterns or strong deviations from normality, suggesting that the residuals are approximately normally distributed. Additionally, the test for equal variances indicated that the variance in screen time is similar across days of the week. Therefore, the assumptions required to run the one-way ANOVA are reasonably satisfied.
 
 ### Run ANOVA analysis
@@ -349,6 +355,7 @@ summary(anova_mod)
 ```
 
 ### Calculate effect size
+
 ```{r}
 #using eta_squared from effectsize package
 eta_squared(anova_mod)
@@ -434,23 +441,3 @@ ggplot(
 ## f. Write about your results
 
 The one-way ANOVA showed that mean screen time did not differ significantly across days of the week ($F(6,23)=0.152, p=0.987$). Average screen time was relatively similar across all days, with the means clustering around about 4.5–5.5 hours per day. The effect size was small ($\eta^2=0.04$), which means that only about 4% of the variation in screen time can be explained by the day of the week. Overall, this suggests that the day of the week has little influence on my screen time in this dataset.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
