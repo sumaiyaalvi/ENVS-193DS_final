@@ -315,9 +315,13 @@ One analysis that could be used is a one-way ANOVA to test whether my mean scree
 ### Fit the model
 
 ```{r}
-# update column names for ease
+# cleaning and organizing personal data
 screentime <- screentime |> 
-  clean_names()
+  clean_names() |> 
+  mutate(day_of_week = factor(day_of_week,
+                              levels = c("Monday", "Tuesday", "Wednesday",
+                                         "Thursday", "Friday", "Saturday",
+                                         "Sunday")))
 
 # fit the ANOVA model
 anova_mod <- aov(screen_time_hours ~ day_of_week, data = screentime)
@@ -351,6 +355,86 @@ summary(anova_mod)
 eta_squared(anova_mod)
 ```
 
+## d. Create a visualization
+
+```{r}
+#| fig-height: 7
+#| fig-width: 10
+
+ggplot(
+  # using screentime dataset
+  data = screentime,
+  # day of week on x-axis and screen time on y-axis
+  aes(x = day_of_week,
+      y = screen_time_hours)
+  ) +
+  # plotting the underlying observations
+  geom_jitter(
+    # different color and shape for each day
+    aes(color = day_of_week,
+        shape = day_of_week),
+    # jitter points horizontally
+    width = 0.15,
+    # don't jitter vertically
+    height = 0,
+    alpha = 0.8,
+    size = 3
+  ) +
+  # displaying mean for each day
+  stat_summary(
+    # show mean as points
+    geom = "point",
+    # calculating mean
+    fun = mean,
+    # resizing the points
+    size = 4,
+    color = "red"
+  ) +
+  # displaying standard error for each day
+  stat_summary(
+    # computing mean and standard error
+    fun.data = mean_se,
+    # plotting error bars
+    geom = "errorbar",
+    # setting error bar width
+    width = 0.15,
+    # making error bars thicker
+    linewidth = 0.5,
+    # change error bar color
+    color = "darkred"
+  ) +
+  # using custom colors (non-default)
+  scale_color_brewer(palette = "Dark2") +
+  # using custom shapes
+  scale_shape_manual(
+  values = c(12, 16, 17, 15, 18, 19, 13)
+  ) +
+  # adding a title, subtitle, and relabeling axes with units
+  labs(
+    # plot title
+    title = "Screen time by day of the week",
+    # subtitle
+    subtitle = "Sumaiya Alvi",
+    # x and y axes labels
+    x = "Day of the Week",
+    y = "Screen Time (hours)"
+  ) +
+  # removing gridlines and changing theme for white background
+  theme_classic() +
+  # removing legend
+  theme(legend.position = "none",
+        plot.title = element_text(size = 20),
+        axis.title = element_text(size = 15)
+        )
+```
+
+## e. Write a caption
+
+**Figure 1. Screen time by day of the week** Each point represents the observed screen time (hours) recorded for a specific day, with different colors and shapes used to distinguish the days of the week. Jittered points show the underlying data, while the red circles indicate the mean screen time for each day and the dark red vertical error bars represent the standard error around the mean.
+
+## f. Write about your results
+
+The one-way ANOVA showed that mean screen time did not differ significantly across days of the week ($F(6,23)=0.152, p=0.987$). Average screen time was relatively similar across all days, with the means clustering around about 4.5–5.5 hours per day. The effect size was small ($\eta^2=0.04$), which means that only about 4% of the variation in screen time can be explained by the day of the week. Overall, this suggests that the day of the week has little influence on my screen time in this dataset.
 
 
 
@@ -368,10 +452,6 @@ eta_squared(anova_mod)
 
 
 
-
-
-
-The effect size for the ANOVA was small ($\eta^2 = 0.04$). This means that only about 4% of the variation in screen time can be explained by the day of the week. Overall, this suggests that the day of the week has very little influence on screen time in this dataset. The results of the one-way ANOVA show that screen time does not significantly differ across days of the week ($F(6,23)=0.152, p=0.987$). Because the p-value is much greater than 0.05, we fail to reject the null hypothesis that mean screen time is the same across all days. This suggests that the day of the week does not appear to have a meaningful effect on screen time in this dataset.
 
 
 
