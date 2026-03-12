@@ -19,6 +19,7 @@ execute:
 #| message: false
 
 library(tidyverse) #general use
+library(dplyr) #cleaning help
 library(here) #file organization
 library(janitor) #cleaning data frames
 library(readxl) #reading excel files
@@ -167,19 +168,6 @@ ggplot(
 
 # Problem 3. Data analysis
 
-```{r}
-#| label: cleaning data
-#| include: false
-
-# convert response variable to binary
-mopl$used_bin <- ifelse(mopl$ID == "used", 1, 0)
-
-# make sure predictors are numeric
-mopl$vo_nest <- as.numeric(mopl$vo_nest)
-mopl$edgedist <- as.numeric(mopl$edgedist)
-```
-
-
 ## a. Response variable
 
 In this dataset, the response variable represents whether a location was used as a Mountain Plover nest site. A value of 1 (used) indicates that the site was occupied by a nesting Mountain Plover, while 0 (available) indicates a location that was available but not used for nesting.
@@ -201,19 +189,27 @@ In this dataset, the response variable represents whether a location was used as
 ## d. Run the models
 
 ```{r}
+# Create cleaned dataset
+mopl_clean <- mopl |> 
+  clean_names() |> 
+  #create binary response variable from id column
+  mutate( used_bin = ifelse(id == "used", 1, 0)) |> 
+  #keep only the necessary variables
+  select(used_bin, edgedist, vo_nest)
+
 # Run the models (logistic regression)
 
 # Model 1: Null model (intercept only)
-mod1 <- glm(used_bin ~ 1, data = mopl, family = binomial)
+mod1 <- glm(used_bin ~ 1, data = mopl_clean, family = binomial)
 
 # Model 2: Visual obstruction only
-mod2 <- glm(used_bin ~ vo_nest, data = mopl, family = binomial)
+mod2 <- glm(used_bin ~ vo_nest, data = mopl_clean, family = binomial)
 
 # Model 3: Distance to colony edge only
-mod3 <- glm(used_bin ~ edgedist, data = mopl, family = binomial)
+mod3 <- glm(used_bin ~ edgedist, data = mopl_clean, family = binomial)
 
 # Model 4: Saturated model (both predictors)
-mod4 <- glm(used_bin ~ vo_nest + edgedist, data = mopl, family = binomial)
+mod4 <- glm(used_bin ~ vo_nest + edgedist, data = mopl_clean, family = binomial)
 ```
 
 
@@ -239,7 +235,7 @@ The DHARMa diagnostic plot suggests that the model assumptions are met. The KS t
 pred_data <- ggpredict(mod2, terms = "vo_nest [all]")
 
 # plot the underlying data and model predictions
-ggplot(mopl,
+ggplot(mopl_clean,
        aes(x = vo_nest,
            y = used_bin)) +
   # add the observed 0/1 nest-use data
