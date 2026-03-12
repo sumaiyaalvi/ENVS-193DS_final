@@ -65,7 +65,7 @@ We did not find strong evidence that precipitation predicts flooded wetland area
 
 ## d. Interpretation
 
-One additional variable that could influence flooded wetland area is **water salinity**, which is a continuous variable. Higher salinity levels may make water less suitable for maintaining wetland habitat, so managers may choose not to flood or maintain wetlands when salinity is high, which could reduce the flooded area.
+One additional variable that could influence flooded wetland area is **water salinity**, which is a continuous variable. Higher salinity levels may make water less suitable for maintaining wetland habitat, so land managers may choose not to flood or maintain wetlands when salinity is high, which could reduce the flooded area.
 
 # Problem 2. Data visualization
 
