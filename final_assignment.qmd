@@ -274,7 +274,8 @@ ggplot(mopl,
   theme_classic() +
   theme(
     plot.title.position = "plot", # keep title aligned with plot
-    plot.title = element_text(size = 12) # slightly reduce title size
+    plot.title = element_text(size = 18), # set title size
+    axis.title = element_text(size = 14)
   )
 ```
 
@@ -339,6 +340,7 @@ shapiro.test(residuals(anova_mod))
 ```
 **Check 2: Equal variances across groups**
 ```{r}
+# using leveneTest() from cars package
 leveneTest(screen_time_hours ~ day_of_week, data = screentime)
 ```
 The assumptions of the ANOVA appear to be met. The residual diagnostic plots did not show any clear patterns or strong deviations from normality, suggesting that the residuals are approximately normally distributed. Additionally, the test for equal variances indicated that the variance in screen time is similar across days of the week. Therefore, the assumptions required to run the one-way ANOVA are reasonably satisfied.
@@ -352,6 +354,7 @@ summary(anova_mod)
 
 ### Calculate effect size
 ```{r}
+#using eta_squared from effectsize package
 eta_squared(anova_mod)
 ```
 
