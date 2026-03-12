@@ -16,4 +16,6 @@ The repository includes the following folders and files:
 
 # Rendered output
 
-[Link to the rendered .html](https://sumaiyaalvi.github.io/ENVS-193DS_final/code/final_assignment.html)
+[Link to the deployed html](https://sumaiyaalvi.github.io/ENVS-193DS_final/code/final_assignment.html)
+
+
